@@ -1,0 +1,236 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{caption}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\setstretch{1.15}
+
+\title{Mathematical Analysis of Planetary Motion Simulations}
+\author{Lee Cheuk Man Gerard}
+\date{July 2, 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report presents a mathematical analysis of two planetary motion visualizations:
+\textit{planetary\_motion\_kepler\_2d.mp4} and \textit{planetary\_motion\_nbody.mp4}.
+The first output illustrates the classical Keplerian description of planetary orbits,
+emphasizing elliptical trajectories and non-uniform orbital speed.
+The second output implements a Newtonian $N$-body gravitational model in which the
+motion of each body arises from mutual interactions with all other bodies.
+Together, the two simulations highlight the distinction between a kinematic orbital
+approximation and a dynamical many-body system governed by differential equations.
+\end{abstract}
+
+\section{Kepler's Laws of Planetary Motion}
+
+The output \textit{planetary\_motion\_kepler\_2d.mp4} provides a geometric visualization
+of planetary orbits in the heliocentric plane. In this representation, each planet
+moves along an ellipse with the Sun located at one focus, in accordance with
+Kepler's first law. The animation also demonstrates the non-uniform orbital speed
+predicted by Kepler's second law and the period--semimajor axis relationship of
+Kepler's third law.
+
+\subsection{Visual Output}
+
+Figure~\ref{fig:kepler-output} shows the representative frame extracted from the
+\textit{planetary\_motion\_kepler\_2d.mp4} output. The image file
+\texttt{kepler\_output.png} should be replaced with the corresponding frame exported
+from the video.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.92\textwidth]{kepler_output.png}
+    \caption{Representative visual output from \textit{planetary\_motion\_kepler\_2d.mp4}.}
+    \label{fig:kepler-output}
+\end{figure}
+
+\subsection{Orbital Geometry}
+
+Let a planet have semimajor axis \(a\) and eccentricity \(e\). In its orbital plane,
+the trajectory may be parameterized by the eccentric anomaly \(E\) as
+\begin{equation}
+x'(E) = a(\cos E - e), 
+\qquad
+y'(E) = a\sqrt{1-e^2}\sin E.
+\end{equation}
+This parameterization describes an ellipse with the central body located at a focus.
+
+The motion in time is governed by Kepler's equation,
+\begin{equation}
+M = E - e\sin E,
+\end{equation}
+where \(M\) denotes the mean anomaly. Since
+\begin{equation}
+M(t) = M_0 + nt,
+\end{equation}
+with mean motion \(n\), the orbital position evolves nonlinearly in time even
+though the mean anomaly increases uniformly.
+
+\subsection{Kepler's Second Law}
+
+Kepler's second law states that the radius vector from the Sun to the planet sweeps
+out equal areas in equal times. In differential form, the areal velocity is constant:
+\begin{equation}
+\frac{dA}{dt} = \frac{1}{2}r^2\frac{d\theta}{dt} = \text{constant}.
+\end{equation}
+Equivalently, over an infinitesimal displacement \(d\mathbf{r}\), the swept area is
+\begin{equation}
+dA = \frac{1}{2}\left|\mathbf{r} \times d\mathbf{r}\right|.
+\end{equation}
+This property is visible in the animation through the varying orbital speed:
+the planets move faster near perihelion and slower near aphelion.
+
+\subsection{Kepler's Third Law}
+
+Kepler's third law gives the relation between the orbital period \(T\) and the
+semimajor axis \(a\):
+\begin{equation}
+T^2 \propto a^3.
+\end{equation}
+In the commonly used normalized astronomical system, this relation is written as
+\begin{equation}
+T^2 = a^3.
+\end{equation}
+Accordingly, planets with larger orbital radii exhibit longer periods, which is
+consistent with the visual differences observed in the simulation.
+
+\subsection{Interpretation of the Output}
+
+The output \textit{planetary\_motion\_kepler\_2d.mp4} is best interpreted as a
+kinematic model of planetary motion rather than a force-based numerical simulation.
+Its principal mathematical features are summarized as follows:
+
+\begin{enumerate}[label=\arabic*.]
+    \item The orbit of each planet is elliptical.
+    \item The Sun remains fixed at one focus of the ellipse.
+    \item The orbital speed varies along the trajectory.
+    \item Equal areas are swept out in equal times.
+    \item The orbital period satisfies \(T^2 \propto a^3\).
+\end{enumerate}
+
+Thus, the animation serves as an effective visualization of the classical laws
+describing planetary motion.
+
+\section{Newtonian Gravity Simulation}
+
+The output \textit{planetary\_motion\_nbody.mp4} presents a Newtonian gravitational
+simulation in which the motion of each body is determined by the combined influence
+of all other bodies in the system. Unlike the Keplerian output, this animation does
+not prescribe orbital paths in advance; instead, trajectories emerge from the direct
+solution of the equations of motion.
+
+\subsection{Visual Output}
+
+Figure~\ref{fig:nbody-output} shows a representative frame extracted from the
+\textit{planetary\_motion\_nbody.mp4} output. The image file
+\texttt{nbody\_output.png} should be replaced with the corresponding frame exported
+from the video.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.92\textwidth]{nbody_output.png}
+    \caption{Representative visual output from \textit{planetary\_motion\_nbody.mp4}.}
+    \label{fig:nbody-output}
+\end{figure}
+
+\subsection{Equations of Motion}
+
+Let \(\mathbf{r}_i(t)\) be the position vector of body \(i\) with mass \(m_i\).
+Then the Newtonian \(N\)-body equations are
+\begin{equation}
+\ddot{\mathbf{r}}_i
+=
+G \sum_{\substack{j=1 \\ j\neq i}}^{N}
+m_j \frac{\mathbf{r}_j - \mathbf{r}_i}{\left|\mathbf{r}_j - \mathbf{r}_i\right|^3},
+\qquad i=1,\dots,N.
+\end{equation}
+This coupled system of second-order differential equations describes the gravitational
+acceleration of each body due to all the others.
+
+The center of mass is defined by
+\begin{equation}
+\mathbf{R}_{\mathrm{cm}}
+=
+\frac{1}{M}\sum_{i=1}^{N} m_i \mathbf{r}_i,
+\qquad
+M = \sum_{i=1}^{N} m_i.
+\end{equation}
+If the total momentum is initially zero, the center of mass remains fixed.
+This explains the barycentric motion of the Sun in the animation.
+
+\subsection{Numerical Integration}
+
+For numerical propagation, a symplectic scheme such as velocity Verlet is commonly
+used. Given positions \(\mathbf{r}_i^n\), velocities \(\mathbf{v}_i^n\), and
+accelerations \(\mathbf{a}_i^n\) at time step \(n\), the update is
+\begin{equation}
+\mathbf{r}_i^{n+1}
+=
+\mathbf{r}_i^n + \Delta t\,\mathbf{v}_i^n + \frac{1}{2}(\Delta t)^2 \mathbf{a}_i^n,
+\end{equation}
+followed by recomputation of \(\mathbf{a}_i^{n+1}\), and then
+\begin{equation}
+\mathbf{v}_i^{n+1}
+=
+\mathbf{v}_i^n + \frac{\Delta t}{2}\left(\mathbf{a}_i^n + \mathbf{a}_i^{n+1}\right).
+\end{equation}
+This method is particularly suitable for orbital simulations because it preserves
+the qualitative structure of the dynamics over long time intervals.
+
+\subsection{Interpretation of the Output}
+
+The output \textit{planetary\_motion\_nbody.mp4} is a direct numerical realization
+of Newtonian gravitational mechanics. Its main features may be summarized as follows:
+
+\begin{enumerate}[label=\arabic*.]
+    \item Each body experiences the combined gravitational force of all other bodies.
+    \item The Sun is not stationary, but moves slightly about the barycenter.
+    \item The resulting trajectories are approximately elliptical but not exactly closed.
+    \item Small perturbations arise from mutual planetary interactions.
+\end{enumerate}
+
+Consequently, this animation provides a more physically complete description of
+planetary dynamics than the Keplerian approximation, while also demonstrating the
+computational complexity of the many-body problem.
+
+\begin{thebibliography}{9}
+
+\bibitem{kepler1609}
+J.~Kepler.
+\newblock \textit{Astronomia Nova}.
+\newblock Prague, 1609.
+
+\bibitem{newton1687}
+I.~Newton.
+\newblock \textit{Philosophi\ae{} Naturalis Principia Mathematica}.
+\newblock London, 1687.
+
+\bibitem{goldstein}
+H.~Goldstein, C.~Poole, and J.~Safko.
+\newblock \textit{Classical Mechanics}, 3rd ed.
+\newblock Pearson, 2002.
+
+\bibitem{bate}
+R.~R. Bate, D.~D. Mueller, and J.~E. White.
+\newblock \textit{Fundamentals of Astrodynamics}.
+\newblock Dover Publications, 1971.
+
+\end{thebibliography}
+
+\end{document}
